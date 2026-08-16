@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skye v3 — Prototype 1: Classic Scholar</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Shared & Prototype Styles -->
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Top Header Bar -->
+    <header class="app-header">
+      <div class="header-left">
+        <button id="toggle-sidebar-btn" class="btn-icon" title="Toggle Sidebar (Ctrl+B)">
+          ☰
+        </button>
+        <div class="header-brand">
+          <span style="color:var(--accent); font-size:1.2rem;">◆</span>
+          <span class="brand-text">Skye</span>
+          <span class="brand-subtitle" style="margin-left: 4px;">Research Collaborator</span>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div id="active-chat-title" class="chat-title-editable" title="Click to rename chat">
+          <span id="title-text">RH Proof Discussion & Spectral Operators</span>
+          <span style="font-size: 11px; color: var(--text-muted);">✏️</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Model Indicator -->
+        <select id="chat-model-select" class="input-text" style="width: auto; padding: 4px 8px; font-size: 12px;">
+          <option value="skye-v3-research">⚙️ Skye v3 Research</option>
+          <option value="skye-v3-fast">⚡ Skye v3 Fast</option>
+          <option value="skye-v3-creative">🎨 Skye v3 Creative</option>
+          <option value="skye-v3-rigor">📐 Skye v3 Formal Rigor</option>
+        </select>
+
+        <!-- Notification Bell -->
+        <button id="notifications-btn" class="btn-icon" style="position: relative;" title="System notifications">
+          🔔
+          <span id="notif-badge" class="badge-error" style="position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; padding: 0; border-radius: 50%;"></span>
+        </button>
+
+        <!-- Context Panel Toggle -->
+        <button id="toggle-context-btn" class="btn-icon" title="Toggle Context Panel (Ctrl+.)">
+          📊
+        </button>
+
+        <!-- User Menu Dropdown -->
+        <div style="position: relative;">
+          <button id="user-menu-btn" class="btn btn-secondary" style="padding: 4px 10px; font-size: 13px;">
+            <span id="user-avatar-badge" class="avatar-user" style="width: 20px; height: 20px; border-radius: 50%; font-size: 11px; display:inline-flex; align-items:center; justify-content:center;">L</span>
+            <span id="user-display-name">Lark</span>
+            <span style="font-size: 10px;">▾</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Workspace 3-Panel Body -->
+    <div class="workspace-layout">
+
+      <!-- 1. LEFT SIDEBAR -->
+      <aside id="left-sidebar" class="left-sidebar">
+        <div class="sidebar-header">
+          <button id="new-chat-btn" class="btn btn-primary" style="width: 100%; height: 38px; font-size: 13.5px;">
+            <span>+</span> New Research Thread
+          </button>
+          
+          <div class="sidebar-search-box">
+            <span class="sidebar-search-icon">🔍</span>
+            <input type="text" id="chat-search-input" class="input-text" placeholder="Search chats… (⌘K)">
+          </div>
+        </div>
+
+        <div class="sidebar-history-scroll" id="sidebar-history-container">
+          <!-- Populated by JS: Pinned, Today, Yesterday, This Week -->
+        </div>
+
+        <div class="sidebar-footer">
+          <!-- Admin link for Lark -->
+          <button id="admin-panel-btn" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; font-size: 13px;">
+            <span>🛡️</span>
+            <span>Admin Console</span>
+            <span class="badge badge-accent" style="margin-left: auto; font-size: 10px;">EBv3</span>
+          </button>
+
+          <!-- Settings link -->
+          <div style="display: flex; gap: 4px;">
+            <button id="signup-demo-btn" class="btn btn-ghost" style="flex: 1; font-size: 12px; justify-content: flex-start;">
+              🔑 Signup / Code
+            </button>
+            <button id="shortcuts-btn" class="btn btn-ghost" style="font-size: 12px;" title="Keyboard shortcuts">
+              ⌨️ ⌘/
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 2. CENTER MAIN CHAT -->
+      <main class="main-chat-container">
+        
+        <!-- Messages Area -->
+        <div class="messages-scroll-area" id="messages-scroll-area">
+          <div class="messages-inner-column" id="chat-messages-container">
+            <!-- Messages rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div class="chat-input-section">
+          <div class="chat-input-card">
+            <textarea id="chat-user-input" class="chat-textarea" placeholder="Ask Skye about proofs, theory, or code… (Shift+Enter for newline, Enter to send)"></textarea>
+            
+            <div class="chat-input-toolbar">
+              <div class="toolbar-left">
+                <button id="btn-attach" class="btn-icon" title="Attach file or code (PDF, PNG, PY)">
+                  📎
+                </button>
+                <button id="btn-slash" class="btn btn-ghost" style="padding: 2px 8px; font-size: 12px; font-family: var(--font-mono);" title="Slash commands (/clear, /export, /model, /tools)">
+                  /commands
+                </button>
+                <button id="btn-voice" class="btn-icon" title="Voice input (Speech API)">
+                  🎤
+                </button>
+              </div>
+
+              <div class="toolbar-right">
+                <span id="token-counter-text" style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">
+                  3,420 / 8,192 tok
+                </span>
+                
+                <button id="btn-stop-stream" class="btn btn-secondary" style="display: none; padding: 4px 10px; font-size: 12px;">
+                  ⏹ Stop
+                </button>
+
+                <button id="btn-send-message" class="btn btn-primary" style="padding: 6px 14px; font-size: 13px;">
+                  <span>Send</span>
+                  <span>▶</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- 3. RIGHT CONTEXT PANEL -->
+      <aside id="right-context-panel" class="right-context-panel">
+        <div class="context-header">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-weight:600; font-size:var(--text-sm);">Context Inspector</span>
+          </div>
+          <button id="close-context-btn" class="btn-icon" style="width: 28px; height: 28px;" title="Close Panel">✕</button>
+        </div>
+
+        <div class="context-tabs">
+          <button class="context-tab-btn active" data-tab="sources">📊 Sources</button>
+          <button class="context-tab-btn" data-tab="tools">🔧 Tools</button>
+          <button class="context-tab-btn" data-tab="memory">🧠 Memory</button>
+          <button class="context-tab-btn" data-tab="session">📈 Session</button>
+        </div>
+
+        <div class="context-body-scroll" id="context-tab-content">
+          <!-- Dynamic context content -->
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- ADMIN MODAL (Lark Only) -->
+  <div id="admin-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 780px;">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size: 1.2rem;">🛡️</span>
+          <div>
+            <div class="modal-title">RavenNest Administrator Console</div>
+            <div style="font-size:12px; color:var(--text-secondary);">System status, activation codes, users & telemetry</div>
+          </div>
+        </div>
+        <button class="btn-icon" onclick="document.getElementById('admin-modal').classList.remove('active')">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: var(--space-4);">
+        <!-- Admin Navigation Tabs -->
+        <div style="display:flex; gap:8px; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:16px;">
+          <button class="btn btn-secondary admin-tab-btn active" data-admin-tab="overview">System Status</button>
+          <button class="btn btn-ghost admin-tab-btn" data-admin-tab="codes">Activation Codes</button>
+          <button class="btn btn-ghost admin-tab-btn" data-admin-tab="users">User Directory</button>
+          <button class="btn btn-ghost admin-tab-btn" data-admin-tab="logs">Audit Logs</button>
+        </div>
+
+        <!-- Tab 1: Overview -->
+        <div id="admin-view-overview" class="admin-view-panel">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+            <div class="context-section-card">
+              <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">EBv3 DAEMON</div>
+              <div style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600;">
+                <span class="status-dot online"></span>
+                <span>Online (PID 1279218)</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top:4px;">Uptime: 3d 14h 22m · 1.4 GB RAM</div>
+            </div>
+
+            <div class="context-section-card">
+              <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">SKYE ENGINE</div>
+              <div style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600;">
+                <span class="status-dot online"></span>
+                <span>Port 8765 (Active)</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top:4px;">Model: Skye-v3-E11 · 4 Active Sessions</div>
+            </div>
+
+            <div class="context-section-card">
+              <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">MCP SERVER TOOLS</div>
+              <div style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600;">
+                <span class="status-dot online"></span>
+                <span>47 Registered Tools</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top:4px;">Latency: 18ms · Zero Errors</div>
+            </div>
+
+            <div class="context-section-card">
+              <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">DATABASE CLUSTER</div>
+              <div style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600;">
+                <span class="status-dot online"></span>
+                <span>Neon PostgreSQL</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top:4px;">Pool: 8/20 · Latency: 24ms</div>
+            </div>
+          </div>
+
+          <div class="context-section-card">
+            <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px;">SERVER METRICS</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+                  <span>CPU Usage</span>
+                  <span style="font-weight:600;">23%</span>
+                </div>
+                <div style="background:var(--bg-input); height:6px; border-radius:3px; overflow:hidden;">
+                  <div style="background:var(--accent); width:23%; height:100%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+                  <span>RAM Usage (8.16 GB / 12.0 GB)</span>
+                  <span style="font-weight:600;">68%</span>
+                </div>
+                <div style="background:var(--bg-input); height:6px; border-radius:3px; overflow:hidden;">
+                  <div style="background:var(--accent); width:68%; height:100%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+                  <span>Disk Storage (44.8 GB / 160.0 GB)</span>
+                  <span style="font-weight:600;">28%</span>
+                </div>
+                <div style="background:var(--bg-input); height:6px; border-radius:3px; overflow:hidden;">
+                  <div style="background:var(--accent); width:28%; height:100%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Activation Codes -->
+        <div id="admin-view-codes" class="admin-view-panel" style="display: none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span style="font-size:13px; color:var(--text-secondary);">Self-Encoding Single-Use Cryptographic Keys</span>
+            <button id="admin-generate-code-btn" class="btn btn-primary" style="font-size:12px; padding:4px 10px;">
+              + Generate New Code
+            </button>
+          </div>
+          <div id="admin-codes-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
+
+        <!-- Tab 3: Users -->
+        <div id="admin-view-users" class="admin-view-panel" style="display: none;">
+          <div id="admin-users-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
+
+        <!-- Tab 4: Logs -->
+        <div id="admin-view-logs" class="admin-view-panel" style="display: none;">
+          <div id="admin-logs-list" style="display:flex; flex-direction:column; gap:6px; font-family:var(--font-mono); font-size:12px;"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('admin-modal').classList.remove('active')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNUP & ACTIVATION MODAL FLOW -->
+  <div id="signup-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 460px;">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="color:var(--accent); font-size:1.2rem;">◆</span>
+          <span class="brand-text" style="font-size:1.2rem;">RavenNest Invitation</span>
+        </div>
+        <button class="btn-icon" onclick="document.getElementById('signup-modal').classList.remove('active')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">
+          Access to Skye requires a cryptographic invitation code generated by Lark.
+        </p>
+
+        <form id="signup-form" onsubmit="return false;" style="display:flex; flex-direction:column; gap:12px;">
+          <div>
+            <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Username</label>
+            <input type="text" id="signup-username" class="input-text" placeholder="e.g. theresa" required>
+          </div>
+
+          <div>
+            <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Email</label>
+            <input type="email" id="signup-email" class="input-text" placeholder="collab@ravennest.science" required>
+          </div>
+
+          <div>
+            <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Activation Code (RN-SKYE-510510-...)</label>
+            <input type="text" id="signup-code" class="input-text" style="font-family:var(--font-mono);" placeholder="RN-SKYE-510510-XXXXXX-XXXXXX" value="RN-SKYE-510510-338B7E-904FFA">
+            <div id="code-validation-feedback" style="font-size:11px; margin-top:3px; color:var(--success);">✓ Format verified (Magic: 510510)</div>
+          </div>
+
+          <div>
+            <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Password</label>
+            <input type="password" id="signup-password" class="input-text" placeholder="••••••••••••">
+            <div style="display:flex; gap:4px; margin-top:6px;">
+              <div style="flex:1; height:3px; background:var(--success); border-radius:2px;"></div>
+              <div style="flex:1; height:3px; background:var(--success); border-radius:2px;"></div>
+              <div style="flex:1; height:3px; background:var(--success); border-radius:2px;"></div>
+              <div style="flex:1; height:3px; background:var(--border); border-radius:2px;"></div>
+            </div>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">• 8+ characters, uppercase, and numbers</div>
+          </div>
+
+          <button id="signup-submit-btn" class="btn btn-primary" style="margin-top:8px; height:40px;">
+            Create Collaborator Account →
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../shared/mock-data.js"></script>
+  <script src="../shared/utils.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skye v3 — Prototype 3: Focus Zen</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="zen-container" id="zen-app-container">
+    
+    <!-- Minimal Floating Top Pill Header -->
+    <header class="zen-floating-header" id="zen-header">
+      <button id="zen-open-threads" class="btn btn-ghost" style="padding: 4px 8px; font-size: 13px; color: var(--text-primary);">
+        <span style="color:var(--accent);">◆</span>
+        <span class="font-serif" style="font-size: 1.1rem; margin-left: 4px; font-weight: 500;">Skye</span>
+        <span style="color: var(--text-muted); font-size: 11px; margin-left: 6px;">▾ (Threads)</span>
+      </button>
+
+      <span style="color: rgba(255,255,255,0.15);">|</span>
+
+      <span id="zen-current-title" style="font-size: 12.5px; font-weight: 500; color: var(--text-secondary); max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        RH Proof Discussion
+      </span>
+
+      <span style="color: rgba(255,255,255,0.15);">|</span>
+
+      <button id="zen-immersion-btn" class="btn btn-ghost" style="padding: 4px 8px; font-size: 12px;" title="Toggle Fullscreen Immersion (⌘Z)">
+        🕯️ Immersion
+      </button>
+
+      <button id="zen-theme-btn" class="btn btn-ghost" style="padding: 4px; font-size: 12px;" title="Theme">
+        🌓
+      </button>
+    </header>
+
+    <!-- Center Reading Column (Editorial Style) -->
+    <main class="zen-reading-stream" id="zen-scroll-area">
+      <div class="zen-article-column" id="zen-entries-column">
+        <!-- Rendered dynamically -->
+      </div>
+    </main>
+
+    <!-- Floating Glass Input Dock -->
+    <div class="zen-dock-container" id="zen-dock-container">
+      <div class="zen-glass-dock">
+        <textarea id="zen-chat-input" class="zen-dock-input" placeholder="Inquire into the problem... (Enter to send, ⌘K for threads)"></textarea>
+        <div class="zen-dock-actions">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span>Substrate: <strong style="color:var(--accent);">Skye v3 Research</strong></span>
+            <span>·</span>
+            <span>Model 128k</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted);">⌘ Enter</span>
+            <button id="zen-send-btn" class="btn btn-primary" style="padding: 4px 12px; font-size: 12px; border-radius: var(--radius-full);">
+              Send →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide-out Thread Navigator Sheet -->
+    <div id="zen-threads-modal" class="zen-threads-overlay">
+      <div class="zen-threads-sheet">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px;">
+          <div>
+            <div class="brand-text" style="font-size:1.2rem;">Research Archives</div>
+            <div style="font-size:11px; color:var(--text-muted);">Select or create conversation thread</div>
+          </div>
+          <button id="zen-close-threads" class="btn-icon" style="font-size:14px;">✕</button>
+        </div>
+
+        <button id="zen-new-thread-btn" class="btn btn-primary" style="width:100%; height:36px; font-size:13px;">
+          + New Research Inquiry
+        </button>
+
+        <div id="zen-threads-list" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:6px;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Citation Hover Box -->
+    <div id="zen-citation-box" class="zen-citation-popover"></div>
+
+  </div>
+
+  <script src="../shared/mock-data.js"></script>
+  <script src="../shared/utils.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

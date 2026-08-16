@@ -1,0 +1,203 @@
+/* ==========================================================================
+   PROTOTYPE 4: GRAPH CANVAS & BRANCHED THOUGHT-TREE
+   ========================================================================== */
+
+.graph-app-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 36px);
+  width: 100vw;
+  background-color: var(--bg-primary);
+  overflow: hidden;
+}
+
+/* Branch & View Bar */
+.branch-top-bar {
+  height: 44px;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+  z-index: 40;
+}
+
+.branch-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.branch-pill {
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  transition: all var(--transition-fast);
+}
+
+.branch-pill.active {
+  background-color: var(--accent-muted);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.view-mode-toggle {
+  display: flex;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+
+.view-mode-btn {
+  padding: 3px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+}
+
+.view-mode-btn.active {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Main Viewport (Graph or Side-by-side Branches) */
+.graph-viewport {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 1. Branch Compare View (Split) */
+.branch-compare-container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.branch-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+  border-right: 1px solid var(--border);
+  min-width: 320px;
+}
+
+.branch-col-header {
+  padding: 8px 14px;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+}
+
+.branch-messages-stream {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 2. Interactive Graph Canvas Mode */
+.graph-canvas-container {
+  flex: 1;
+  position: relative;
+  background: radial-gradient(circle at center, #222226 0%, #151517 100%);
+  overflow: hidden;
+  display: none;
+}
+
+.graph-canvas-container.active {
+  display: flex;
+}
+
+.canvas-controls-overlay {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 50;
+}
+
+.node-card {
+  position: absolute;
+  width: 240px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: var(--shadow-md);
+  cursor: grab;
+  user-select: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.node-card.active-node {
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.node-card:active {
+  cursor: grabbing;
+}
+
+.node-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 11px;
+}
+
+.node-body {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* SVG Line Connections */
+.graph-svg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.tree-connection-line {
+  stroke: var(--border);
+  stroke-width: 2px;
+  fill: none;
+  stroke-dasharray: 4, 4;
+}
+.tree-connection-line.active-path {
+  stroke: var(--accent);
+  stroke-width: 2.5px;
+  stroke-dasharray: none;
+}

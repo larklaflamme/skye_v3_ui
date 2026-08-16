@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skye v3 — Prototype 2: Research Workbench IDE</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="workbench-container">
+    
+    <!-- Top Workspace Header -->
+    <header class="app-header" style="height: 44px; padding: 0 12px; background-color: #121214;">
+      <div class="header-left">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="color:var(--accent); font-size:1.1rem;">◆</span>
+          <span class="brand-text" style="font-size:1.15rem;">Skye Workbench</span>
+          <span class="badge badge-accent" style="font-size:10px;">STUDIO v3.4</span>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-secondary); background:var(--bg-input); padding:3px 12px; border-radius:4px; border:1px solid var(--border);">
+          <span>📂 /proofs/spectral_hamiltonian.py</span>
+          <span style="color:var(--accent);">·</span>
+          <span>⚡ EBv3 Connected</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="toggle-terminal-btn" class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px;">
+          ⌨️ Terminal [~]
+        </button>
+        <button id="run-artifact-top-btn" class="btn btn-primary" style="padding: 2px 10px; font-size: 11px;">
+          ▶ Run Kernel
+        </button>
+        <div style="display:flex; align-items:center; gap:6px; font-size:12px; margin-left:8px;">
+          <span class="avatar-user" style="width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:11px;">L</span>
+          <span style="color:var(--text-secondary);">Lark</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workbench Body -->
+    <div class="workbench-body">
+      
+      <!-- 1. LEFT ACTIVITY ICON BAR -->
+      <div class="activity-bar">
+        <div class="activity-bar-group">
+          <button class="activity-btn active" data-view="chats" title="Chat Threads (Explorer)">💬</button>
+          <button class="activity-btn" data-view="files" title="Research Files & Code">📁</button>
+          <button class="activity-btn" data-view="tools" title="MCP Tool Telemetry">🔧</button>
+          <button class="activity-btn" data-view="memory" title="Cognitive Substrate Memory">🧠</button>
+        </div>
+
+        <div class="activity-bar-group">
+          <button class="activity-btn" data-view="admin" title="Lark Admin Console">🛡️</button>
+          <button class="activity-btn" id="wb-theme-toggle" title="Toggle Theme">🌓</button>
+        </div>
+      </div>
+
+      <!-- 2. EXPLORER DRAWER -->
+      <aside id="workbench-drawer" class="workbench-drawer">
+        <div class="drawer-header">
+          <span id="drawer-title-text">RESEARCH THREADS</span>
+          <button id="drawer-new-action-btn" class="btn-icon" style="width:20px; height:20px; font-size:12px;" title="New Thread">+</button>
+        </div>
+
+        <div class="drawer-content-scroll" id="drawer-content-container">
+          <!-- Populated by JS based on active activity icon -->
+        </div>
+      </aside>
+
+      <!-- 3. DUAL PANE AREA -->
+      <div class="workbench-dual-pane">
+        
+        <!-- Left Pane: Interactive Chat -->
+        <section class="pane-chat">
+          <div class="pane-header">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span class="status-dot online"></span>
+              <strong style="color:var(--text-primary); font-size:12px;" id="chat-thread-title">RH Proof Discussion</strong>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <select id="chat-model-quick" style="background:transparent; border:none; color:var(--text-secondary); font-size:11px; outline:none;">
+                <option value="skye-v3-research">Skye v3 Research</option>
+                <option value="skye-v3-fast">Skye v3 Fast</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="pane-chat-scroll" id="pane-chat-messages">
+            <!-- Messages rendered dynamically -->
+          </div>
+
+          <!-- Chat Input -->
+          <div style="padding: 10px; background-color: var(--bg-secondary); border-top: 1px solid var(--border);">
+            <div style="background-color: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 8px;">
+              <textarea id="wb-chat-input" style="width: 100%; min-height: 42px; background: transparent; border: none; color: var(--text-primary); font-family: var(--font-sans); font-size: 13px; resize: none; outline: none;" placeholder="Collaborate with Skye (Type math $...$ or code)..."></textarea>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding-top:4px; border-top:1px solid rgba(255,255,255,0.05);">
+                <div style="display:flex; gap:4px;">
+                  <button class="btn btn-ghost" style="padding:2px 6px; font-size:11px;" id="btn-insert-tool">🔧 Tool Call</button>
+                  <button class="btn btn-ghost" style="padding:2px 6px; font-size:11px;" id="btn-insert-latex">∑ LaTeX</button>
+                </div>
+                <button id="wb-send-btn" class="btn btn-primary" style="padding:3px 10px; font-size:12px;">Send ▶</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Pane: Artifact Studio & Notebook -->
+        <section class="pane-studio">
+          <div class="studio-tabs-bar" id="studio-tabs-bar">
+            <button class="studio-tab active" data-tab="code">
+              <span>🐍</span>
+              <span>spectral_hamiltonian.py</span>
+            </button>
+            <button class="studio-tab" data-tab="latex">
+              <span>📐</span>
+              <span>Theorem_Proof.tex</span>
+            </button>
+            <button class="studio-tab" data-tab="source">
+              <span>📄</span>
+              <span>Berry_Keating_1999.pdf</span>
+            </button>
+            <button class="studio-tab" data-tab="scratchpad">
+              <span>📝</span>
+              <span>Scratchpad.md</span>
+            </button>
+          </div>
+
+          <!-- Studio Content Canvas -->
+          <div class="studio-canvas" id="studio-canvas-content">
+            <!-- Dynamic Studio Views -->
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+
+    <!-- 4. BOTTOM TERMINAL & TOOL DRAWER -->
+    <div id="bottom-terminal-drawer" class="bottom-terminal-drawer collapsed">
+      <div class="terminal-header" id="terminal-header-toggle">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-weight:600; color:var(--text-primary);">TERMINAL & TOOL EXECUTION STREAM</span>
+          <span class="badge badge-accent" style="font-size:10px;">MCP 47 tools</span>
+          <span style="color:var(--text-muted);">ebv3-daemon: PID 1279218</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="color:var(--text-muted); font-size:10px;">Click to expand/collapse</span>
+          <span id="terminal-arrow-icon">▲</span>
+        </div>
+      </div>
+
+      <div class="terminal-logs-scroll" id="terminal-logs-stream">
+        <div>[2:45:10 PM] <span style="color:var(--accent);">ebv3_daemon</span>: WebSocket dispatching prompt token payload to Skye Engine (port 8765)</div>
+        <div>[2:45:12 PM] <span style="color:var(--info);">mcp_server</span>: Executing tool `bash_exec` in container sandbox: python3 -c 'import sympy'</div>
+        <div>[2:45:14 PM] <span style="color:var(--success);">mcp_server</span>: Tool `bash_exec` completed in 124ms. Exit Code 0.</div>
+        <div>[2:45:15 PM] <span style="color:var(--text-secondary);">skye_engine</span>: Streaming response tokens to UI client (Lark)...</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../shared/mock-data.js"></script>
+  <script src="../shared/utils.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

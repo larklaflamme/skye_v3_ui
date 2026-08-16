@@ -1,0 +1,687 @@
+/* ==========================================================================
+   SKYE v3 - PROTOTYPE 6: COMMAND HUB WITH 2D THOUGHT GRAPH & 10 THEMES
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   THEME DEFINITIONS: 5 DARK THEMES & 5 LIGHT THEMES
+   -------------------------------------------------------------------------- */
+
+/* 1. DARK THEME 1: Raven Charcoal & Amber (Canonical RavenNest) */
+:root, [data-theme="dark-raven-amber"] {
+  --bg-primary: #1a1a1c;
+  --bg-secondary: #222226;
+  --bg-hover: #2a2a30;
+  --bg-input: #161618;
+  --surface: #28282e;
+  --border: #3a3a42;
+  --border-focus: #c8a84e;
+  --text-primary: #e8e6e3;
+  --text-secondary: #9b9996;
+  --text-muted: #6b6966;
+  --accent: #c8a84e;
+  --accent-hover: #d4b85e;
+  --accent-muted: #3d3520;
+  --accent-glow: rgba(200, 168, 78, 0.25);
+  --success: #4caf50;
+  --warning: #e6a817;
+  --error: #e53935;
+  --info: #5c9ce6;
+  --user-bubble: #2d4a3e;
+  --user-bubble-border: #3c6152;
+  --code-bg: #0d0d0f;
+  --graph-canvas-bg: radial-gradient(circle at center, #232328 0%, #141416 100%);
+  --node-bg: #28282e;
+}
+
+/* 2. DARK THEME 2: Obsidian & Electric Copper */
+[data-theme="dark-obsidian-copper"] {
+  --bg-primary: #0f0f12;
+  --bg-secondary: #16161a;
+  --bg-hover: #222228;
+  --bg-input: #0a0a0c;
+  --surface: #1e1e24;
+  --border: #32323c;
+  --border-focus: #e07a5f;
+  --text-primary: #f2ede9;
+  --text-secondary: #a8a29e;
+  --text-muted: #716c68;
+  --accent: #e07a5f;
+  --accent-hover: #f4a261;
+  --accent-muted: #42261e;
+  --accent-glow: rgba(224, 122, 95, 0.28);
+  --success: #52b788;
+  --warning: #f4a261;
+  --error: #e63946;
+  --info: #4ea8de;
+  --user-bubble: #243d36;
+  --user-bubble-border: #365e53;
+  --code-bg: #08080a;
+  --graph-canvas-bg: radial-gradient(circle at center, #1b1b22 0%, #0a0a0d 100%);
+  --node-bg: #1e1e24;
+}
+
+/* 3. DARK THEME 3: Midnight Sapphire & Celestial Gold */
+[data-theme="dark-midnight-sapphire"] {
+  --bg-primary: #0c101a;
+  --bg-secondary: #131929;
+  --bg-hover: #1c253d;
+  --bg-input: #080b12;
+  --surface: #172033;
+  --border: #293552;
+  --border-focus: #d4af37;
+  --text-primary: #e6ecf8;
+  --text-secondary: #90a0c0;
+  --text-muted: #5e6c8a;
+  --accent: #d4af37;
+  --accent-hover: #eed070;
+  --accent-muted: #3d3314;
+  --accent-glow: rgba(212, 175, 55, 0.25);
+  --success: #38b000;
+  --warning: #ffaa00;
+  --error: #ef233c;
+  --info: #48cae4;
+  --user-bubble: #193838;
+  --user-bubble-border: #285757;
+  --code-bg: #060910;
+  --graph-canvas-bg: radial-gradient(circle at center, #162038 0%, #080c14 100%);
+  --node-bg: #172033;
+}
+
+/* 4. DARK THEME 4: Scholarly Forest & Ochre */
+[data-theme="dark-forest-ochre"] {
+  --bg-primary: #101713;
+  --bg-secondary: #17221c;
+  --bg-hover: #203028;
+  --bg-input: #0a100c;
+  --surface: #1d2a23;
+  --border: #2c4236;
+  --border-focus: #d99b26;
+  --text-primary: #e8eee9;
+  --text-secondary: #94aa9a;
+  --text-muted: #627568;
+  --accent: #d99b26;
+  --accent-hover: #e8b04a;
+  --accent-muted: #3d2e12;
+  --accent-glow: rgba(217, 155, 38, 0.25);
+  --success: #48bb78;
+  --warning: #ecc94b;
+  --error: #f56565;
+  --info: #4299e1;
+  --user-bubble: #254235;
+  --user-bubble-border: #396451;
+  --code-bg: #070d09;
+  --graph-canvas-bg: radial-gradient(circle at center, #1b2d24 0%, #0a110d 100%);
+  --node-bg: #1d2a23;
+}
+
+/* 5. DARK THEME 5: Ethereal Amethyst & Silver */
+[data-theme="dark-amethyst-silver"] {
+  --bg-primary: #15131a;
+  --bg-secondary: #1d1a24;
+  --bg-hover: #282433;
+  --bg-input: #0e0c12;
+  --surface: #24202e;
+  --border: #3a334a;
+  --border-focus: #d8d4cf;
+  --text-primary: #eeeaf2;
+  --text-secondary: #a9a0b8;
+  --text-muted: #726a82;
+  --accent: #d8d4cf;
+  --accent-hover: #f0ede8;
+  --accent-muted: #383442;
+  --accent-glow: rgba(216, 212, 207, 0.25);
+  --success: #48bb78;
+  --warning: #ed8936;
+  --error: #e53e3e;
+  --info: #63b3ed;
+  --user-bubble: #233e38;
+  --user-bubble-border: #375e55;
+  --code-bg: #09080c;
+  --graph-canvas-bg: radial-gradient(circle at center, #262133 0%, #0d0b12 100%);
+  --node-bg: #24202e;
+}
+
+/* 6. LIGHT THEME 1: Parchment & Warm Gold (Canonical RavenNest Light) */
+[data-theme="light-parchment-gold"] {
+  --bg-primary: #fafaf8;
+  --bg-secondary: #f0f0ed;
+  --bg-hover: #e6e6e0;
+  --bg-input: #ffffff;
+  --surface: #ffffff;
+  --border: #d4d4ce;
+  --border-focus: #8b6914;
+  --text-primary: #1a1a1c;
+  --text-secondary: #6b6966;
+  --text-muted: #9b9996;
+  --accent: #8b6914;
+  --accent-hover: #73560e;
+  --accent-muted: #f4eedb;
+  --accent-glow: rgba(139, 105, 20, 0.18);
+  --success: #2e7d32;
+  --warning: #b26a00;
+  --error: #c62828;
+  --info: #1565c0;
+  --user-bubble: #e2ede5;
+  --user-bubble-border: #c4dcce;
+  --code-bg: #f4f4f0;
+  --graph-canvas-bg: radial-gradient(circle at center, #f2f2ee 0%, #e5e5dd 100%);
+  --node-bg: #ffffff;
+}
+
+/* 7. LIGHT THEME 2: Nordic Fog & Ochre */
+[data-theme="light-nordic-fog"] {
+  --bg-primary: #f4f6f8;
+  --bg-secondary: #e8ecf0;
+  --bg-hover: #dbe1e8;
+  --bg-input: #ffffff;
+  --surface: #ffffff;
+  --border: #cbd3dc;
+  --border-focus: #b07d1e;
+  --text-primary: #161c24;
+  --text-secondary: #5c6877;
+  --text-muted: #8c9ba8;
+  --accent: #b07d1e;
+  --accent-hover: #946816;
+  --accent-muted: #f8f1de;
+  --accent-glow: rgba(176, 125, 30, 0.18);
+  --success: #2d8a4e;
+  --warning: #c27d00;
+  --error: #d32f2f;
+  --info: #1976d2;
+  --user-bubble: #e0ece7;
+  --user-bubble-border: #bcd5cb;
+  --code-bg: #ecf0f4;
+  --graph-canvas-bg: radial-gradient(circle at center, #edf1f5 0%, #d8e0e8 100%);
+  --node-bg: #ffffff;
+}
+
+/* 8. LIGHT THEME 3: Alabaster & Terracotta */
+[data-theme="light-alabaster-terracotta"] {
+  --bg-primary: #fbf8f5;
+  --bg-secondary: #f2ece4;
+  --bg-hover: #e6ded3;
+  --bg-input: #ffffff;
+  --surface: #ffffff;
+  --border: #dcd2c4;
+  --border-focus: #a8523b;
+  --text-primary: #231c18;
+  --text-secondary: #706359;
+  --text-muted: #9e9084;
+  --accent: #a8523b;
+  --accent-hover: #8f4430;
+  --accent-muted: #f9ede8;
+  --accent-glow: rgba(168, 82, 59, 0.18);
+  --success: #388e3c;
+  --warning: #d97706;
+  --error: #dc2626;
+  --info: #0284c7;
+  --user-bubble: #e6ede4;
+  --user-bubble-border: #ccdacc;
+  --code-bg: #f4ede3;
+  --graph-canvas-bg: radial-gradient(circle at center, #f5eee4 0%, #e6dcd0 100%);
+  --node-bg: #ffffff;
+}
+
+/* 9. LIGHT THEME 4: Botanical Herbarium & Bronze */
+[data-theme="light-botanical-bronze"] {
+  --bg-primary: #f6f8f4;
+  --bg-secondary: #ebf0e6;
+  --bg-hover: #dde5d5;
+  --bg-input: #ffffff;
+  --surface: #ffffff;
+  --border: #cdd9c4;
+  --border-focus: #786438;
+  --text-primary: #1b2118;
+  --text-secondary: #5e6b57;
+  --text-muted: #8d9c85;
+  --accent: #786438;
+  --accent-hover: #63522d;
+  --accent-muted: #f2ede1;
+  --accent-glow: rgba(120, 100, 56, 0.18);
+  --success: #2e7d32;
+  --warning: #b45309;
+  --error: #b91c1c;
+  --info: #0369a1;
+  --user-bubble: #dbeade;
+  --user-bubble-border: #b8d2bd;
+  --code-bg: #ecf2e7;
+  --graph-canvas-bg: radial-gradient(circle at center, #edf2e8 0%, #dbe3d3 100%);
+  --node-bg: #ffffff;
+}
+
+/* 10. LIGHT THEME 5: Classic Manuscript & Ink Gold */
+[data-theme="light-manuscript-ink"] {
+  --bg-primary: #fdfbf7;
+  --bg-secondary: #f4ede0;
+  --bg-hover: #e8decb;
+  --bg-input: #ffffff;
+  --surface: #ffffff;
+  --border: #dcd0bc;
+  --border-focus: #7c5e10;
+  --text-primary: #1c1812;
+  --text-secondary: #685e50;
+  --text-muted: #968a78;
+  --accent: #7c5e10;
+  --accent-hover: #664c0b;
+  --accent-muted: #f7f0dc;
+  --accent-glow: rgba(124, 94, 16, 0.18);
+  --success: #15803d;
+  --warning: #b45309;
+  --error: #b91c1c;
+  --info: #1d4ed8;
+  --user-bubble: #e4ebe3;
+  --user-bubble-border: #c7d8c6;
+  --code-bg: #f4ece0;
+  --graph-canvas-bg: radial-gradient(circle at center, #f7f1e6 0%, #e6dac6 100%);
+  --node-bg: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   LAYOUT & CONTAINER STYLING
+   -------------------------------------------------------------------------- */
+
+.cmd-app-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 36px);
+  width: 100vw;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+/* Top Telemetry HUD */
+.cmd-telemetry-hud {
+  background-color: var(--code-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.hud-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hud-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xs);
+}
+.hud-item.highlight {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+/* Navigation Header Bar */
+.cmd-nav-bar {
+  height: 46px;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+.cockpit-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.cockpit-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cockpit-tab-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.cockpit-tab-btn.active {
+  background-color: var(--surface);
+  border-color: var(--border);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Theme Selector Dropdown */
+.theme-selector-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.theme-dropdown {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  outline: none;
+}
+.theme-dropdown:focus {
+  border-color: var(--border-focus);
+}
+
+/* Main Viewport */
+.cmd-viewport {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.cmd-panel {
+  flex: 1;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cmd-panel.active {
+  display: flex;
+}
+
+/* --------------------------------------------------------------------------
+   PANEL 1: RESEARCH CONSOLE
+   -------------------------------------------------------------------------- */
+.research-console-deck {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.console-history-sidebar {
+  width: 270px;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.console-chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+  overflow: hidden;
+}
+
+.console-messages-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.console-msg-card {
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  line-height: 1.6;
+  position: relative;
+}
+
+.console-msg-card.user {
+  background-color: var(--user-bubble);
+  border: 1px solid var(--user-bubble-border);
+}
+
+.console-msg-card.skye {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+}
+
+/* Command Prompt Input */
+.cmd-input-bar {
+  padding: 10px 14px;
+  background-color: var(--code-bg);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cmd-chips-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+
+.cmd-chip {
+  padding: 2px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cmd-chip:hover {
+  background: var(--accent-muted);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.cmd-field-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+}
+.cmd-field-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.cmd-prompt-glyph {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.cmd-input-element {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  outline: none;
+}
+.cmd-input-element::placeholder {
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   PANEL 2: 2D THOUGHT GRAPH (PER CONVERSATION)
+   -------------------------------------------------------------------------- */
+.thought-graph-deck {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.graph-top-info {
+  height: 38px;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.graph-viewport-canvas {
+  flex: 1;
+  position: relative;
+  background: var(--graph-canvas-bg);
+  overflow: hidden;
+  cursor: default;
+}
+
+.graph-svg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.thought-node-card {
+  position: absolute;
+  width: 260px;
+  background-color: var(--node-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: var(--shadow-md);
+  cursor: grab;
+  user-select: none;
+  z-index: 20;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.thought-node-card:active {
+  cursor: grabbing;
+}
+
+.thought-node-card.node-active {
+  border-color: var(--accent);
+  box-shadow: 0 0 14px var(--accent-glow);
+}
+
+.node-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.node-body-text {
+  font-size: 12px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.node-meta-foot {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+/* Graph Controls Overlay */
+.graph-hud-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 50;
+}
+
+/* Graph Node Inspector Drawer */
+.graph-node-inspector {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 280px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: var(--shadow-lg);
+  z-index: 40;
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   PANEL 3: ADMIN & PANEL 4: WEBSOCKET
+   -------------------------------------------------------------------------- */
+.admin-cockpit-grid {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  background-color: var(--surface);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.admin-table th {
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}
+
+.admin-table tr:hover td {
+  background-color: var(--bg-hover);
+}

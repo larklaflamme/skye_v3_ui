@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skye v3 Web UI — Prototypes Evaluation Hub</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="shared/styles.css">
+  <style>
+    body {
+      overflow-y: auto;
+      background-color: var(--bg-primary);
+      padding-bottom: 60px;
+    }
+
+    .hub-hero {
+      padding: 48px 24px 32px 24px;
+      text-align: center;
+      background: radial-gradient(circle at 50% 0%, rgba(200, 168, 78, 0.12) 0%, transparent 70%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hub-container-max {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .prototype-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .proto-card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-md);
+      transition: all var(--transition-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .proto-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg), var(--shadow-accent);
+    }
+
+    .proto-number-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--accent-muted);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(200, 168, 78, 0.3);
+    }
+
+    .comparison-table-wrapper {
+      margin-top: 48px;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .comparison-table th {
+      background-color: rgba(255, 255, 255, 0.03);
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comparison-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-primary);
+    }
+
+    .comparison-table tr:hover td {
+      background-color: var(--bg-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <header class="hub-hero">
+    <div class="hub-container-max">
+      <div style="display:inline-flex; align-items:center; gap:8px; margin-bottom:12px;">
+        <span style="color:var(--accent); font-size:1.6rem;">◆</span>
+        <span class="badge badge-accent">RavenNest Science · Skye v3 Specification</span>
+      </div>
+      <h1 class="font-serif" style="font-size: 2.8rem; font-weight: 500; color: var(--text-primary); margin-bottom: 10px; letter-spacing: -0.01em;">
+        Web UI Prototype Variations
+      </h1>
+      <p style="max-width: 680px; margin: 0 auto; font-size: 1.05rem; color: var(--text-secondary); line-height: 1.6;">
+        5 distinct architectural and experiential interpretations built purely in JavaScript, HTML & CSS based on the UX Requirements, Feature Matrix, and RavenNest design guidelines.
+      </p>
+      
+      <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
+        <button class="btn btn-secondary" onclick="SkyeUtils.toggleTheme()">
+          🌓 Toggle Light/Dark Theme
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Prototype Showcase Grid -->
+  <main class="hub-container-max">
+    
+    <div class="prototype-grid">
+      
+      <!-- Card 1 -->
+      <div class="proto-card">
+        <span class="proto-number-badge">PROTOTYPE 01</span>
+        <div>
+          <div style="font-size:1.8rem; margin-bottom:8px;">🏛️</div>
+          <h2 class="font-serif" style="font-size:1.5rem; color:var(--text-primary); margin-bottom:6px;">Classic Scholar</h2>
+          <div class="badge badge-accent" style="margin-bottom:12px;">Canonical Three-Panel Study</div>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            Faithful realization of the core specification. Collapsible history & search sidebar, centered reading column, and a dedicated 320px right context panel for Sources, MCP Tools, Cognitive Memory, and Token gauges.
+          </p>
+          <ul style="font-size:12.5px; color:var(--text-secondary); padding-left:16px; margin-bottom:20px; line-height:1.6;">
+            <li>✓ Auto-expanding input with token counter & slash menu</li>
+            <li>✓ Context tabs: Sources (arXiv), Tools, Memory, Session</li>
+            <li>✓ Full Admin drawer with activation keys & user directory</li>
+            <li>✓ Real-time streaming typewriter simulation with stop button</li>
+          </ul>
+        </div>
+        <a href="prototype-1-classic-scholar/index.html" class="btn btn-primary" style="width:100%; height:40px; font-weight:600;">
+          Launch Classic Scholar →
+        </a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="proto-card">
+        <span class="proto-number-badge">PROTOTYPE 02</span>
+        <div>
+          <div style="font-size:1.8rem; margin-bottom:8px;">💻</div>
+          <h2 class="font-serif" style="font-size:1.5rem; color:var(--text-primary); margin-bottom:6px;">Research Workbench IDE</h2>
+          <div class="badge badge-accent" style="margin-bottom:12px;">Dual-Pane Studio & Live Kernel Runner</div>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            Designed for heavy technical inquiry. Split-screen dual-canvas layout with chat on the left and a live artifact studio on the right to execute Python code, inspect theorem proofs, read arXiv papers, and edit scratchpads.
+          </p>
+          <ul style="font-size:12.5px; color:var(--text-secondary); padding-left:16px; margin-bottom:20px; line-height:1.6;">
+            <li>✓ 48px activity icon bar + collapsible explorer drawer</li>
+            <li>✓ Live Python simulation kernel with real stdout stream</li>
+            <li>✓ Multi-tab studio: Code, LaTeX, Source PDF, Scratchpad</li>
+            <li>✓ Bottom expandable terminal with MCP tool traces</li>
+          </ul>
+        </div>
+        <a href="prototype-2-workbench-ide/index.html" class="btn btn-primary" style="width:100%; height:40px; font-weight:600;">
+          Launch Workbench IDE →
+        </a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="proto-card">
+        <span class="proto-number-badge">PROTOTYPE 03</span>
+        <div>
+          <div style="font-size:1.8rem; margin-bottom:8px;">🕯️</div>
+          <h2 class="font-serif" style="font-size:1.5rem; color:var(--text-primary); margin-bottom:6px;">Focus Zen</h2>
+          <div class="badge badge-accent" style="margin-bottom:12px;">Distraction-Free Reading Room</div>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            "Focus over chrome" in its purest form. Minimal floating glass pill header, editorial Cormorant Garamond typography, floating frosted glass input dock, and lightweight popovers for citations instead of heavy persistent sidebars.
+          </p>
+          <ul style="font-size:12.5px; color:var(--text-secondary); padding-left:16px; margin-bottom:20px; line-height:1.6;">
+            <li>✓ Clean edge-to-edge reading canvas without chrome fatigue</li>
+            <li>✓ Floating frosted glass input dock with auto-dimming header</li>
+            <li>✓ Fullscreen Immersion mode (⌘Z) for deep contemplation</li>
+            <li>✓ Inline hover tooltips for academic citations & math</li>
+          </ul>
+        </div>
+        <a href="prototype-3-focus-zen/index.html" class="btn btn-primary" style="width:100%; height:40px; font-weight:600;">
+          Launch Focus Zen →
+        </a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="proto-card">
+        <span class="proto-number-badge">PROTOTYPE 04</span>
+        <div>
+          <div style="font-size:1.8rem; margin-bottom:8px;">🌿</div>
+          <h2 class="font-serif" style="font-size:1.5rem; color:var(--text-primary); margin-bottom:6px;">Graph Canvas & Branches</h2>
+          <div class="badge badge-accent" style="margin-bottom:12px;">Hypothesis Tree & 2D Thought Graph</div>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            Engineered for non-linear inquiry. Compare multiple hypothetical branches side-by-side (Spectral Dilation vs Adelic Noncommutative Geometry) or switch to an interactive 2D node graph with draggable thoughts and SVG paths.
+          </p>
+          <ul style="font-size:12.5px; color:var(--text-secondary); padding-left:16px; margin-bottom:20px; line-height:1.6;">
+            <li>✓ Side-by-side split comparison of forked research branches</li>
+            <li>✓ Interactive 2D thought graph canvas with draggable nodes</li>
+            <li>✓ Dynamic SVG bezier connection lines</li>
+            <li>✓ "+ Fork Hypothesis" button to explore divergent deductions</li>
+          </ul>
+        </div>
+        <a href="prototype-4-graph-canvas/index.html" class="btn btn-primary" style="width:100%; height:40px; font-weight:600;">
+          Launch Graph Canvas →
+        </a>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="proto-card">
+        <span class="proto-number-badge">PROTOTYPE 05</span>
+        <div>
+          <div style="font-size:1.8rem; margin-bottom:8px;">🛡️</div>
+          <h2 class="font-serif" style="font-size:1.5rem; color:var(--text-primary); margin-bottom:6px;">Command HUD & Cockpit</h2>
+          <div class="badge badge-accent" style="margin-bottom:12px;">High-Velocity Terminal & Admin Console</div>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            Lark's power-user command cockpit. Features a real-time system telemetry HUD (EBv3 Daemon, Skye Engine Port 8765, MCP tools latency), autocomplete CLI prompt, direct inline User & Activation Key tables, and live WebSocket feed.
+          </p>
+          <ul style="font-size:12.5px; color:var(--text-secondary); padding-left:16px; margin-bottom:20px; line-height:1.6;">
+            <li>✓ Top telemetry HUD with real-time status & server metrics</li>
+            <li>✓ Integrated CLI command bar with slash autocompletion</li>
+            <li>✓ In-place user management & cryptographic activation code vault</li>
+            <li>✓ Live WebSocket frame stream inspector for real-time debugging</li>
+          </ul>
+        </div>
+        <a href="prototype-5-command-hub/index.html" class="btn btn-secondary" style="width:100%; height:40px; font-weight:600;">
+          Launch Command HUD →
+        </a>
+      </div>
+
+      <!-- Card 6: FEATURED BASE -->
+      <div class="proto-card" style="border: 2px solid var(--accent); background: linear-gradient(180deg, var(--surface) 0%, rgba(200, 168, 78, 0.06) 100%);">
+        <span class="proto-number-badge" style="background:var(--accent); color:#111; font-weight:700;">★ PROTOTYPE 06 (NEW BASE)</span>
+        <div>
+          <div style="font-size:1.8rem; margin-bottom:8px;">🌟</div>
+          <h2 class="font-serif" style="font-size:1.5rem; color:var(--text-primary); margin-bottom:6px;">Command Hub & 2D Thought Graph</h2>
+          <div class="badge badge-accent" style="margin-bottom:12px;">10 Themes (5 Dark + 5 Light) · Graph Per Conversation</div>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            The enhanced base combining Prototype 5's high-velocity telemetry cockpit with a dedicated <strong>2D Thought Graph tab per conversation</strong> and an instant palette switcher supporting <strong>5 Dark Themes & 5 Light Themes</strong>.
+          </p>
+          <ul style="font-size:12.5px; color:var(--text-secondary); padding-left:16px; margin-bottom:20px; line-height:1.6;">
+            <li>✓ <strong>5 Dark Themes + 5 Light Themes</strong> with instant swatch picker</li>
+            <li>✓ <strong>2D Thought Graph Tab</strong> dynamically mapped per active chat</li>
+            <li>✓ Draggable thought nodes, SVG bezier connectors & node inspector</li>
+            <li>✓ "+ Fork Hypothesis Node" and jump-to-turn navigation</li>
+            <li>✓ Top telemetry HUD + CLI command execution engine</li>
+          </ul>
+        </div>
+        <a href="prototype-6-command-graph/index.html" class="btn btn-primary" style="width:100%; height:40px; font-weight:700;">
+          Launch Prototype 6 (Command + Graph) ★ →
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Comparative Feature Matrix Section -->
+    <section class="comparison-table-wrapper">
+      <div style="padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h3 class="font-serif" style="font-size: 1.35rem; color: var(--text-primary);">Architectural & UX Comparison Matrix</h3>
+          <p style="font-size: 12.5px; color: var(--text-secondary); margin-top: 2px;">Evaluation of prototype layout philosophies against Skye v3 requirements</p>
+        </div>
+        <span class="badge badge-accent">RavenNest Spec v1.0</span>
+      </div>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature / Layout Area</th>
+            <th>1. Classic Scholar</th>
+            <th>2. Workbench IDE</th>
+            <th>3. Focus Zen</th>
+            <th>4. Graph Canvas</th>
+            <th>5. Command HUD</th>
+            <th style="color:var(--accent);">★ 6. Command + Graph</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Primary Layout Model</strong></td>
+            <td>3-Panel (Left/Center/Right)</td>
+            <td>Dual-Pane Split Canvas</td>
+            <td>Single Editorial Column</td>
+            <td>Comparative Split & 2D Graph</td>
+            <td>Integrated Deck & HUD</td>
+            <td style="color:var(--accent); font-weight:600;">Cockpit + 2D Graph Tab</td>
+          </tr>
+          <tr>
+            <td><strong>Theme Support</strong></td>
+            <td>Dark & Light</td>
+            <td>Dark & Light</td>
+            <td>Dark & Light</td>
+            <td>Dark & Light</td>
+            <td>Dark & Light</td>
+            <td style="color:var(--accent); font-weight:600;">10 Themes (5 Dark + 5 Light)</td>
+          </tr>
+          <tr>
+            <td><strong>Context & Tool Visibility</strong></td>
+            <td>320px Right Tabbed Panel</td>
+            <td>Integrated Right Studio</td>
+            <td>Hover Popovers / Cards</td>
+            <td>Graph Nodes & Inspect</td>
+            <td>Telemetry Log & Badges</td>
+            <td style="color:var(--accent); font-weight:600;">Live HUD + Graph Node Inspect</td>
+          </tr>
+          <tr>
+            <td><strong>Code & Artifact Handling</strong></td>
+            <td>Inline blocks with Copy</td>
+            <td>Live Python Sandbox Runner</td>
+            <td>Serif/Mono blocks</td>
+            <td>Branching Code Nodes</td>
+            <td>CLI /exec & output stream</td>
+            <td style="color:var(--accent); font-weight:600;">CLI /exec + Syntax blocks</td>
+          </tr>
+          <tr>
+            <td><strong>Hypothesis Branching</strong></td>
+            <td>Thread forking</td>
+            <td>Multi-file tabs</td>
+            <td>Thread history sheet</td>
+            <td>Side-by-side comparative split</td>
+            <td>Session switcher</td>
+            <td style="color:var(--accent); font-weight:600;">Per-Chat 2D Thought Graph</td>
+          </tr>
+          <tr>
+            <td><strong>Admin & System Monitoring</strong></td>
+            <td>Modal Overlay Drawer</td>
+            <td>Activity Bar Drawer</td>
+            <td>Minimal status indicator</td>
+            <td>Telemetry node</td>
+            <td>Persistent Top Telemetry HUD</td>
+            <td style="color:var(--accent); font-weight:600;">Telemetry HUD + Admin Deck</td>
+          </tr>
+          <tr>
+            <td><strong>Best For Persona</strong></td>
+            <td>Canonical (Lark, Theresa)</td>
+            <td>Technical Researchers (Lark)</td>
+            <td>Deep Reading / Jackie</td>
+            <td>Complex Proof Explorations</td>
+            <td>Admin & System Operators</td>
+            <td style="color:var(--accent); font-weight:600;">All Collaborative Personas</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <script src="shared/mock-data.js"></script>
+  <script src="shared/utils.js"></script>
+</body>
+</html>

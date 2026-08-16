@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark-raven-amber">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skye v3 — Prototype: Command Hub & 2D Thought Graph</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="cmd-app-container">
+    
+    <!-- 1. Real-time Telemetry HUD -->
+    <div class="cmd-telemetry-hud">
+      <div class="hud-group">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="color:var(--accent); font-weight:700;">◆ RAVENNEST</span>
+          <span style="color:var(--text-muted);">|</span>
+          <span style="color:var(--text-primary); font-weight:600;">SKYE COCKPIT</span>
+        </div>
+
+        <div class="hud-item highlight">
+          <span class="status-dot online"></span>
+          <span>EBv3: PID 1279218</span>
+        </div>
+
+        <div class="hud-item highlight">
+          <span class="status-dot online"></span>
+          <span>ENGINE: :8765</span>
+        </div>
+
+        <div class="hud-item">
+          <span style="color:var(--accent);">MCP:</span>
+          <span>47 tools (18ms)</span>
+        </div>
+
+        <div class="hud-item">
+          <span style="color:var(--info);">DB:</span>
+          <span>Neon PG (24ms)</span>
+        </div>
+      </div>
+
+      <div class="hud-group">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span>CPU: <strong>23%</strong></span>
+          <span>·</span>
+          <span>RAM: <strong>68% (8.16GB)</strong></span>
+        </div>
+        <span class="badge badge-accent" id="active-user-tier-badge" style="font-size:10px;">TIER: ADMIN (LARK)</span>
+      </div>
+    </div>
+
+    <!-- 2. Cockpit Navigation Bar with Tabs & Theme Switcher -->
+    <header class="cmd-nav-bar">
+      <div class="cockpit-tabs">
+        <button class="cockpit-tab-btn active" data-panel="chat">
+          <span>💬</span>
+          <span>Research Console</span>
+        </button>
+        <button class="cockpit-tab-btn" data-panel="graph">
+          <span>🕸️</span>
+          <span>2D Thought Graph</span>
+        </button>
+        <button class="cockpit-tab-btn" data-panel="admin">
+          <span>🛡️</span>
+          <span>Admin Command Deck</span>
+        </button>
+        <button class="cockpit-tab-btn" data-panel="socket">
+          <span>📡</span>
+          <span>Live WebSocket Frames</span>
+        </button>
+      </div>
+
+      <!-- Theme Selector Dropdown (5 Dark + 5 Light = 10 Themes) -->
+      <div class="theme-selector-wrapper">
+        <span style="font-size:12px; color:var(--text-secondary);">🎨 Theme:</span>
+        <select id="theme-select-dropdown" class="theme-dropdown">
+          <optgroup label="🌙 DARK THEMES (5)">
+            <option value="dark-raven-amber" selected>1. Raven Charcoal & Amber (Canonical)</option>
+            <option value="dark-obsidian-copper">2. Obsidian & Electric Copper</option>
+            <option value="dark-midnight-sapphire">3. Midnight Sapphire & Celestial Gold</option>
+            <option value="dark-forest-ochre">4. Scholarly Forest & Ochre</option>
+            <option value="dark-amethyst-silver">5. Ethereal Amethyst & Silver Smoke</option>
+          </optgroup>
+          <optgroup label="☀️ LIGHT THEMES (5)">
+            <option value="light-parchment-gold">6. Parchment & Warm Gold (Canonical Light)</option>
+            <option value="light-nordic-fog">7. Nordic Fog & Ochre</option>
+            <option value="light-alabaster-terracotta">8. Alabaster & Terracotta Earth</option>
+            <option value="light-botanical-bronze">9. Botanical Herbarium & Bronze</option>
+            <option value="light-manuscript-ink">10. Classic Manuscript & Ink Gold</option>
+          </optgroup>
+        </select>
+        
+        <button id="quick-key-gen-header-btn" class="btn btn-primary" style="padding: 4px 10px; font-size: 11.5px; margin-left: 8px;">
+          + New Key (RN-SKYE)
+        </button>
+      </div>
+    </header>
+
+    <!-- 3. Main Viewport -->
+    <main class="cmd-viewport">
+      
+      <!-- ====================================================================
+           PANEL 1: RESEARCH CONSOLE
+           ==================================================================== -->
+      <section id="panel-chat" class="cmd-panel active">
+        <div class="research-console-deck">
+          
+          <!-- Left Thread Sidebar -->
+          <div class="console-history-sidebar">
+            <div style="padding:10px 12px; font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+              <span>ACTIVE RESEARCH SESSIONS</span>
+              <button id="btn-new-console-thread" class="btn-icon" style="width:20px; height:20px; font-size:12px;" title="New Thread">+</button>
+            </div>
+            <div id="console-thread-list" style="padding:4px;">
+              <!-- Dynamic list of chats -->
+            </div>
+          </div>
+
+          <!-- Main Messages Column -->
+          <div class="console-chat-main">
+            <div style="padding:8px 16px; background-color:var(--bg-secondary); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; font-size:12px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="status-dot online"></span>
+                <strong style="color:var(--text-primary);" id="console-active-title">RH Proof Discussion & Spectral Operators</strong>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-family:var(--font-mono); color:var(--accent);" id="console-token-badge">skye-v3-research · 3,420 tokens</span>
+                <button id="btn-jump-to-graph" class="btn btn-secondary" style="padding:2px 8px; font-size:11px;">
+                  View in 2D Graph ↗
+                </button>
+              </div>
+            </div>
+
+            <div class="console-messages-scroll" id="console-messages-scroll">
+              <!-- Rendered messages -->
+            </div>
+
+            <!-- Command Line Prompt -->
+            <div class="cmd-input-bar">
+              <div class="cmd-chips-row">
+                <span class="cmd-chip" data-cmd="/theme dark-obsidian-copper">/theme obsidian</span>
+                <span class="cmd-chip" data-cmd="/theme light-parchment-gold">/theme parchment</span>
+                <span class="cmd-chip" data-cmd="/model skye-v3-rigor">/model rigor</span>
+                <span class="cmd-chip" data-cmd="/keygen theresa@ravennest.science">/keygen [email]</span>
+                <span class="cmd-chip" data-cmd="/exec python3 spectral_hamiltonian.py">/exec [py]</span>
+                <span class="cmd-chip" data-cmd="/graph">/graph</span>
+                <span class="cmd-chip" data-cmd="/status">/status</span>
+                <span class="cmd-chip" data-cmd="/clear">/clear</span>
+              </div>
+
+              <div class="cmd-field-wrapper">
+                <span class="cmd-prompt-glyph">skye&gt;</span>
+                <input type="text" id="console-cli-input" class="cmd-input-element" placeholder="Type prompt or /command (/theme, /model, /keygen, /graph, /status)...">
+                <button id="console-cli-send" class="btn btn-primary" style="padding: 3px 12px; font-size: 11px;">
+                  Execute ↵
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           PANEL 2: 2D THOUGHT GRAPH (PER CONVERSATION)
+           ==================================================================== -->
+      <section id="panel-graph" class="cmd-panel">
+        <div class="thought-graph-deck">
+          
+          <div class="graph-top-info">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span>Active Thread:</span>
+              <strong style="color:var(--accent);" id="graph-thread-name">RH Proof Discussion & Spectral Operators</strong>
+              <span class="badge badge-accent" id="graph-nodes-count-badge">5 Cognitive Nodes</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button id="btn-graph-fork-node" class="btn btn-secondary" style="padding:2px 8px; font-size:11px;">
+                + Fork Hypothesis Node
+              </button>
+              <button id="btn-graph-realign" class="btn btn-secondary" style="padding:2px 8px; font-size:11px;">
+                ⟲ Auto-Layout
+              </button>
+            </div>
+          </div>
+
+          <!-- Canvas Area -->
+          <div class="graph-viewport-canvas" id="thought-graph-canvas">
+            
+            <svg class="graph-svg-layer" id="thought-graph-svg">
+              <!-- Dynamically drawn bezier connectors -->
+            </svg>
+
+            <div id="thought-nodes-container">
+              <!-- Draggable node cards dynamically populated per conversation -->
+            </div>
+
+            <!-- Node Inspector Card (shown on click) -->
+            <div class="graph-node-inspector" id="node-inspector-drawer">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span class="badge badge-accent" id="inspector-badge">Node Inspector</span>
+                <button class="btn-icon" style="width:20px; height:20px;" onclick="document.getElementById('node-inspector-drawer').style.display='none'">✕</button>
+              </div>
+              <h4 id="inspector-title" style="font-size:13px; margin-bottom:6px; color:var(--text-primary);">Node Details</h4>
+              <div id="inspector-content" style="font-size:12px; color:var(--text-secondary); line-height:1.5;"></div>
+              <div style="margin-top:12px; display:flex; gap:6px;">
+                <button id="inspector-jump-btn" class="btn btn-primary" style="padding:3px 8px; font-size:11px; flex:1;">
+                  Jump to Chat Turn →
+                </button>
+              </div>
+            </div>
+
+            <!-- Canvas HUD Controls -->
+            <div class="graph-hud-controls">
+              <button id="graph-zoom-in" class="btn btn-secondary" style="padding:6px 10px; font-size:12px;" title="Zoom In">+</button>
+              <button id="graph-zoom-out" class="btn btn-secondary" style="padding:6px 10px; font-size:12px;" title="Zoom Out">-</button>
+              <button id="graph-reset-view" class="btn btn-secondary" style="padding:6px 10px; font-size:12px;" title="Center Canvas">⌖</button>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           PANEL 3: ADMIN COMMAND DECK
+           ==================================================================== -->
+      <section id="panel-admin" class="cmd-panel">
+        <div class="admin-cockpit-grid">
+          
+          <!-- System Status Grid -->
+          <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;">
+            <div class="context-section-card">
+              <div style="font-size:11px; color:var(--text-secondary);">EBv3 DAEMON</div>
+              <div style="font-size:13px; font-weight:600; color:var(--success); margin-top:2px;">Online (PID 1279218)</div>
+              <div style="font-size:10.5px; color:var(--text-muted); margin-top:2px;">Uptime: 3d 14h 22m</div>
+            </div>
+            <div class="context-section-card">
+              <div style="font-size:11px; color:var(--text-secondary);">SKYE ENGINE</div>
+              <div style="font-size:13px; font-weight:600; color:var(--success); margin-top:2px;">Port 8765 Active</div>
+              <div style="font-size:10.5px; color:var(--text-muted); margin-top:2px;">Model: Skye-v3-E11</div>
+            </div>
+            <div class="context-section-card">
+              <div style="font-size:11px; color:var(--text-secondary);">REGISTERED MCP TOOLS</div>
+              <div style="font-size:13px; font-weight:600; color:var(--accent); margin-top:2px;">47 Tools Online</div>
+              <div style="font-size:10.5px; color:var(--text-muted); margin-top:2px;">Latency: 18ms</div>
+            </div>
+            <div class="context-section-card">
+              <div style="font-size:11px; color:var(--text-secondary);">DATABASE CLUSTER</div>
+              <div style="font-size:13px; font-weight:600; color:var(--info); margin-top:2px;">Neon PostgreSQL</div>
+              <div style="font-size:10.5px; color:var(--text-muted); margin-top:2px;">Pool: 8/20 · Ping: 24ms</div>
+            </div>
+          </div>
+
+          <!-- User Directory -->
+          <div class="context-section-card" style="padding:0; overflow:hidden;">
+            <div style="padding:10px 14px; background:rgba(255,255,255,0.02); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:12px; text-transform:uppercase;">User Directory & Permission Roles</strong>
+              <span class="badge badge-accent">5 Users Configured</span>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Role Tier</th>
+                  <th>Status</th>
+                  <th>Last Active</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="cockpit-user-rows"></tbody>
+            </table>
+          </div>
+
+          <!-- Activation Keys Vault -->
+          <div class="context-section-card" style="padding:0; overflow:hidden;">
+            <div style="padding:10px 14px; background:rgba(255,255,255,0.02); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:12px; text-transform:uppercase;">Cryptographic Activation Codes (RN-SKYE-510510-...)</strong>
+              <button id="admin-table-gen-key-btn" class="btn btn-primary" style="padding:2px 8px; font-size:11px;">+ Generate Key</button>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Cryptographic Key</th>
+                  <th>Recipient</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Expires</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="cockpit-code-rows"></tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           PANEL 4: LIVE WEBSOCKET FRAMES
+           ==================================================================== -->
+      <section id="panel-socket" class="cmd-panel">
+        <div style="flex:1; padding:16px; display:flex; flex-direction:column; background-color:var(--code-bg); font-family:var(--font-mono); font-size:12px; overflow-y:auto;" id="cockpit-socket-feed">
+          <div style="color:var(--text-muted); margin-bottom:8px;">// Live WebSocket Stream (ws://localhost:8000/api/v1/skye/stream) - 47 MCP Tools Connected</div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="../shared/mock-data.js"></script>
+  <script src="../shared/utils.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
